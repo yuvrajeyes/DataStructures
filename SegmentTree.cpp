@@ -34,9 +34,10 @@ private:
             return;
         }
         int mid = low + ((high-low)>>1);
-        build(2*ind, low, mid, arr);
-        build(2*ind+1, mid+1, high, arr);
-        seg[ind] = combine(seg[2*ind], seg[2*ind+1]);
+        int lc = ind << 1, rc = lc | 1;
+        build(lc, low, mid, arr);
+        build(rc, mid+1, high, arr);
+        seg[ind] = combine(seg[lc], seg[rc]);
     }
 
     void update(int ind, int low, int high, int pos, int val) {
@@ -45,9 +46,10 @@ private:
             return;
         }
         int mid = low + ((high-low)>>1);
-        if (pos<=mid) update(2*ind, low, mid, pos, val);
-        else update(2*ind+1, mid+1, high, pos, val);
-        seg[ind] = combine(seg[2*ind], seg[2*ind+1]);
+        int lc = ind << 1, rc = lc | 1;
+        if (pos<=mid) update(lc, low, mid, pos, val);
+        else update(rc, mid+1, high, pos, val);
+        seg[ind] = combine(seg[lc], seg[rc]);
     }
 
     T query(int ind, int low, int high, int l, int r) {
@@ -58,18 +60,16 @@ private:
         if (low>=l and high<=r) return seg[ind];
         //Partial overlap
         int mid = low + ((high-low)>>1);
-        T left = query(2*ind, low, mid, l, r);
-        T right = query(2*ind+1, mid+1, high, l, r);
+        int lc = ind << 1, rc = lc | 1;
+        T left = query(lc, low, mid, l, r);
+        T right = query(rc, mid+1, high, l, r);
         return combine(left, right);
     }
 
 public:
-    SegmentTree(int n) {
-        N = n;
+    SegmentTree(vector<int>const &arr) {
+        N = arr.size();
         seg.resize(pow(2, ceil(log2(N))+1));
-    }
-
-    SegmentTree(vector<int>const &arr) : SegmentTree(arr.size()) {
         build(1, 0, arr.size()-1, arr);
     }
 
@@ -83,6 +83,8 @@ public:
 };
 
 int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
     vector<int> arr = {-3, 100, -400, 60, 60, -400, 100, -3}; // {1, 0, 2, 1, 1, 3, 0, 4, 2, 5, 2};
     int n = arr.size();
     SegmentTree<info> st(arr);
