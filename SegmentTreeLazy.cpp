@@ -40,9 +40,8 @@ private:
 
     void update(int ind, int low, int high, int l, int r, int val) {
         propagate(ind, low, high);
-        int lc = ind << 1, rc = lc | 1;
-        // No overlap ([l r low high], [low high l r], [low r l high])
-        if (low>r || high<l || l>r) return; // change it based on question
+        // No overlap ([l r low high], [low high l r]
+        if (low>r || high<l) return; // change it based on question
         // Complete overlap ([l low high r])
         if (low>=l && high<=r) {
             lazy[ind] = val;
@@ -51,6 +50,7 @@ private:
         }
         // Partial overlap
         int mid = low + ((high-low)>>1);
+        int lc = ind << 1, rc = lc | 1;
         update(lc, low, mid, l, r, val);
         update(rc, mid+1, high, l, r, val);
         seg[ind] = combine(seg[lc], seg[rc]);
@@ -59,13 +59,13 @@ private:
     T query(int ind, int low, int high, int l, int r) {
         // update the previous remaining updates and propagates downwards
         propagate(ind, low, high);
-        int lc = ind << 1, rc = lc | 1;
         // No overlap ([l r low high], [low high l r], [low r l high])
         if (low>r || high<l || l>r) return 0; // change it based on question
         // Complete overlap ([l low high r])
         if (low>=l && high<=r) return seg[ind];
         //Partial overlap
         int mid = low + ((high-low)>>1);
+        int lc = ind << 1, rc = lc | 1;
         return combine(query(lc, low, mid, l, r), query(rc, mid+1, high, l, r));
     }
 
