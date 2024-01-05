@@ -112,22 +112,29 @@ struct Lsegtree{
     }
 };
 
-int main() {
+int main() { // SPOJ: HORRIBLE
     ios_base::sync_with_stdio(0);
     cin.tie(0);
-    vector<int> arr = {1, 0, 2, 1, 1, 3, 0, 4, 2, 5, 2, 2, 3};
-    int n = arr.size();
-    Lsegtree<int, int> st(n, 0, 0);
-    st.build(arr);
-    // cout<<st.query(0, n-1);
-    for (auto &x: st.st) 
-        cout<<x<<" ";
-    cout<<endl;
-    cout<<st.query(7, 10)<<endl;
-    st.update(0, n-1, 5);
-    for (auto &x: st.st) 
-        cout<<x<<" ";
-    cout<<endl;
-    cout<<st.query(7, 10)<<endl;
+    int T;
+    cin>>T;
+    while (T--) {
+    	int n, nq;
+    	cin>>n>>nq;
+    	vector<int> arr(n, 0);
+	    Lsegtree<int, int> st(n+1, 0, 0);
+	    while (nq--) {
+	    	int t, p, q, v;
+	    	cin>>t;
+	    	if (t==0) {
+	    		cin>>p>>q>>v;
+	    		st.update(p, q, v);
+	    	}
+	    	else {
+	    		cin>>p>>q;
+                // st.print();
+	    		cout<<st.query(p, q)<<endl;
+	    	}
+	    }
+    }
     return 0;
 }

@@ -70,6 +70,12 @@ private:
     }
 
 public:
+    SegmentTree(int n) {
+        N = n;
+        seg.resize(pow(2, 1+ceil(log2(N))));
+        lazy.resize(pow(2, 1+ceil(log2(N))));
+    }
+
     SegmentTree(vector<int>const &arr) {
         N = arr.size();
         seg.resize(pow(2, 1+ceil(log2(arr.size()))));
