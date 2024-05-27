@@ -14,7 +14,7 @@ public:
     FenwickTree(vector<int>const &arr) : FenwickTree(arr.size()){
         for (int i = 1; i < N; i++) {
             bit[i] += arr[i-1];
-            int r = i+(i&-i);
+            int r = i + (i & -i);
             if (r < N) bit[r] += bit[i];
         }
     }
@@ -24,14 +24,14 @@ public:
     }
 
     void update(int i, int val) {
-        for (; i<N; i+=(i&-i)) {
+        for (; i < N; i += (i & -i)) {
             bit[i] += val;
         }
     }
 
     int sum(int r) {
         int ans = 0;
-        for (; r>0; r-=(r&-r)) {
+        for (; r > 0; r -= (r & -r)) {
             ans += bit[r];
         }
         return ans;

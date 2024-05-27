@@ -21,8 +21,8 @@ private:
         int mid = low + ((high - low) >> 1);
         build(2 * ind, low, mid);
         build(2 * ind + 1, mid + 1, high);
-        seg[ind].insert(seg[2 * ind].begin(), seg[2 * ind].end());
-        seg[ind].insert(seg[2 * ind + 1].begin(), seg[2 * ind + 1].end());
+        seg[ind].insert(all(seg[2 * ind]));
+        seg[ind].insert(all(seg[2 * ind + 1]));
     }
 
     int query(int ind, int low, int high, int l, int r, int key) {
@@ -30,7 +30,7 @@ private:
         if (low >= l && high <= r) {
             auto pos = seg[ind].upper_bound(key);  // use lower_bound for greater than or equal to
             if (pos != seg[ind].end()) {
-                return distance(pos, seg[ind].end());  // // for the number of element greater than specified number
+                return distance(pos, seg[ind].end());  // for the number of element greater than specified number
                 return *pos;  // for smallest number greater than specified number
             }
             return 0;

@@ -24,7 +24,7 @@ private:
         res.sum = l.sum + r.sum;
         res.pref = max(l.pref, l.sum + r.pref);
         res.suff = max(r.suff, r.sum + l.suff);
-        res.ans = max(std::max(l.ans, r.ans), l.suff + r.pref);
+        res.ans = max(max(l.ans, r.ans), l.suff + r.pref);
         return res;
     }
 

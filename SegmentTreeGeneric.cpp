@@ -25,10 +25,14 @@ struct Lsegtree{
         lazy.assign(pow(2, 1+ceil(log2(n))), identity_update);
     }
 
-    // change the following 3 functions as required
+    // change the following 4 functions as required
     T combine(T l, T r) {
         T ans = (l + r);
         return ans;
+    }
+
+    T make_data(T val) {
+        return val;
     }
 
     T apply(T curr, U upd, ll low, ll high) {
@@ -44,7 +48,7 @@ struct Lsegtree{
 
     void buildUtil(ll v, ll low, ll high, vector<T>&a) {
         if(low == high) {
-            st[v] = a[low];
+            st[v] = make_data([low]);
             return;
         }
         ll mid = low + ((high-low)>>1);

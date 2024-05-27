@@ -24,11 +24,13 @@ private:
     }
 
     int query(int ind, int low, int high, int l, int r, int key) {
+        // No overlap
         if (r < low || l > high || l > r) return 0;
+        // Complete overlap
         if (low >= l && high <= r) {
             auto pos = upper_bound(all(seg[ind]), key);  // use lower_bound for greater than or equal to
             if (pos != seg[ind].end()) {
-                return distance(pos, seg[ind].end());  // // for the number of element greater than specified number
+                return distance(pos, seg[ind].end());  // // for the number of element greater than / less than specified number
                 return *pos;  // for smallest number greater than specified number
             }
             return 0;
