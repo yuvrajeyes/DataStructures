@@ -21,13 +21,13 @@ public:
     void unionByRank(int u, int v) {
         u = findUParent(u);
         v = findUParent(v);
-        if (u != v) {
-            if (size[u] < size[v])
-                swap(u, v);
+        if (u == v) return;
+        if (rank[u] < rank[v])
+            parent[u] = v;
+        else if (rank[v] < rank[u])
             parent[v] = u;
-            if (rank[u] == rank[v])
-                rank[u]++;
-        }
+        else 
+            parent[v] = u, rank[u]++;
     }
 
     void unionBySize(int u, int v) {
